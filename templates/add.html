@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIST</title>
+</head>
+
+<body>
+    <a href="/home"><button>BILL</button></a> 
+    <a href="/list"><button>ITEM LIST</button></a>
+    <hr>
+    
+    <div>
+        <table>
+            <tr>
+                <th>S.no</th>
+                <th>ITEM NAME</th>
+                <th>PRICE</th>
+            </tr>
+            
+            {% for i in data %}
+            
+            <tr>
+                {% set number = i[0] | int %} <!--serial no of table column in item_list table-->
+                <td>{{ number }}</td>
+                <td>{{ i[2] }}</td> <!--{i[2]} item_name column in item_list table-->
+                <td>{{ i[3] }}</td> <!--{i[3]} item_proce column in item_list table-->
+                <td><a href="/edit/{{ i[1] }}"><button>EDIT</button></a></td> <!--{i[1]} id column in item_list table-->
+                <td><a href="/delete/{{ i[1] }}"><button>DELETE</button></a></td>
+            </tr>
+
+            {% endfor %}
+            </table>
+    </div>
+
+    <hr>
+    <div>
+        <a href="/add"><button>ADD</button></a>
+    </div>
+
+    <div>
+        <form action="/adding" method="post">
+            <label for="item_name">Item Name</label>
+            <input type="text" name="item_name" id="item_name" required>
+            <label for="item_price">Item Price</label>
+            <input type="text" name="item_price" id="item_price" required>
+            <input type="submit" name="" id="" value="Submit">
+        </form>
+    </div>
+</body>
+
+</html>

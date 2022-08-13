@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <a href="/home"><button>BILL</button></a>
+    <a href="/list"><button>ITEM LIST</button></a>
+    <hr>
+    <form action="/add_selected" method="post">
+        <select name="select_item_id" id="select_item">
+            {% for i in data %}
+            <option value="{{i[1]}}">{{ i[2] }}</option>
+            <!--{i[1]} id column in item_list table-->
+            {% endfor %}
+        </select>
+        <input type="text" name="qty" id="qty" style="width: 20px; height: 15px;">
+        <input type="submit" value="add">
+    </form>
+    <hr>
+    <table>
+        <tr>
+            <th>S.No</th>
+            <th>Item</th>
+            <th>qty</th>
+            <th>price</th>
+        </tr>
+        {% for j in data2 %}
+        <tr>
+            {% set number = j[0] | int %}
+            <td>{{ number }}</td>
+            <td>{{ j[3] }}</td>
+            <td>{{ j[4] }}</td>
+            <td>{{ j[5] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <label for="total">Total: {{ total }}</label>
+
+    <button>Generate bill</button>
+</body>
+
+</html>
