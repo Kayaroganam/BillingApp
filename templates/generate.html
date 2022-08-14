@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    <title>Stationery Store</title>
+</head>
+
+<body>
+    <div class="box1">
+    <label for="date_time">Date and Time : {{ date }}</label>
+    <hr>
+    
+    <table>
+        <tr>
+            <th>S.No</th>
+            <th>Item</th>
+            <th>qty</th>
+            <th>price</th>
+        </tr>
+        {% for j in data %}
+        <tr>
+            {% set number = j[0] | int %}
+            <td>{{ number }}</td>
+            <td>{{ j[3] }}</td>
+            <td>{{ j[4] }}</td>
+            <td>₹{{ j[5] }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td></td>
+            <td>Thank you for your business!</td>
+            <td>Total</td>
+            <td>₹{{ total }}</td>
+        </tr>
+    </table>
+
+    <p>If you have any questions about this invoice, please contact</p>
+    <a href="">iamkayarogan@gmail.com</a>
+</div>
+
+</body>
+
+</html>

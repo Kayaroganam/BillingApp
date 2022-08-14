@@ -1,5 +1,7 @@
 from flask import Flask, render_template, redirect, request, url_for
 from database_operation import *
+import datetime
+import database_operation
 
 app = Flask(__name__)   #Creating an flask object
 
@@ -18,7 +20,12 @@ def home():
 def selected_add():
     if request.method == 'POST':
         item_id = request.form.get('select_item_id')
-        qty = float(request.form.get('qty'))
+        qty = request.form.get('qty')
+        if qty != '':
+            qty = float(qty)
+        else:
+            qty = 0
+
         total = selected_id(item_id, qty)
     return redirect(url_for('home'))
 
@@ -57,6 +64,18 @@ def editing(post_id):
 def delete(post_id):
     delete_data(post_id)
     return redirect(url_for('list'))
-    
+
+@app.route('/delete_selection/<int:post_id>')
+def delete_select(post_id):
+    delete_selection(post_id)
+    return redirect(url_for('home'))
+
+@app.route('/generateBill')
+def generate_bill():
+    data = select_all_selected()
+    total = total_price()
+    date_ = datetime.datetime.now()
+    return render_template('generate.html', data=data, total=total, date=date_)
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

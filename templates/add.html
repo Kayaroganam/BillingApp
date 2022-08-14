@@ -5,10 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIST</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    <title>Stationery Store</title>
 </head>
 
 <body>
+    <div class="box1">
     <a href="/home"><button>BILL</button></a> 
     <a href="/list"><button>ITEM LIST</button></a>
     <hr>
@@ -27,7 +30,7 @@
                 {% set number = i[0] | int %} <!--serial no of table column in item_list table-->
                 <td>{{ number }}</td>
                 <td>{{ i[2] }}</td> <!--{i[2]} item_name column in item_list table-->
-                <td>{{ i[3] }}</td> <!--{i[3]} item_proce column in item_list table-->
+                <td>₹{{ i[3] }}</td> <!--{i[3]} item_proce column in item_list table-->
                 <td><a href="/edit/{{ i[1] }}"><button>EDIT</button></a></td> <!--{i[1]} id column in item_list table-->
                 <td><a href="/delete/{{ i[1] }}"><button>DELETE</button></a></td>
             </tr>
@@ -39,8 +42,8 @@
     <hr>
     <div>
         <a href="/add"><button>ADD</button></a>
-    </div>
-
+    </div><br>
+    
     <div>
         <form action="/adding" method="post">
             <label for="item_name">Item Name</label>
@@ -50,6 +53,7 @@
             <input type="submit" name="" id="" value="Submit">
         </form>
     </div>
+</div>
 </body>
 
 </html>

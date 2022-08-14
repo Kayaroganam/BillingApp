@@ -1,0 +1,35 @@
+body{
+}
+
+div[class="box1"] {
+    height: 100% ;
+    width: 70%;
+    background-color: white;
+    margin: 0% auto;
+    border-top: 2px solid #CE2232;
+    border-right: 2px solid #219E4A;
+    border-bottom: 2px solid #0974B0;
+    border-left: 2px solid #FFE004;
+    padding: 10px;
+  }
+
+  table, th, td{
+    border-top: 2px solid #CE2232;
+    border-right: 2px solid #219E4A;
+    border-bottom: 2px solid #0974B0;
+    border-left: 2px solid #FFE004;
+    border-collapse: collapse;
+    text-align: center;
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+  a[class="nostyle"],td[class="nostyle"]{
+    border: none;
+    padding: 0%;
+    text-decoration: none;
+  }
+
+  .delete-btn1{
+    color: #CE2232;
+    text-decoration: none;
+  }

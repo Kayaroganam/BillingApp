@@ -87,13 +87,17 @@ def selected_id(id, qty):
     result = my_cursor.fetchall()
     
     item_id = result[0][0]
-    price = result[0][2]
     item_name = result[0][1]
+    price = result[0][2]
     total_price = price * qty
 
-    query2 = f"INSERT INTO selected_items(item_id, selected_item_name, qty, price) VALUES({item_id},'{item_name}',{qty},{total_price})"
-    my_cursor.execute(query2)
-    item_list.commit()
+    try:
+            query2 = f"INSERT INTO selected_items(item_id, selected_item_name, qty, price) VALUES({item_id},'{item_name}',{qty},{total_price})"
+            my_cursor.execute(query2)
+            item_list.commit()
+    except:
+        print("can't do!")
+        pass
 
 def total_price():
     my_cursor = item_list.cursor()
@@ -102,6 +106,18 @@ def total_price():
     total = my_cursor.fetchall()
     total = total[0][0]
     return total
+
+#Function to delete selected_list data
+def delete_selection(id):
+    my_cursor = item_list.cursor()
+    query = f"DELETE FROM selected_items WHERE id={id};"
+    my_cursor.execute(query)
+    print("data deleted [OK]")
+
+#Function to delete all from selected_items
+def delete_all_selected_items():
+    my_cursor = item_list.cursor()
+    query = "DELETE * FROM"
 
 if __name__ == '__main__':
     print(total_price())

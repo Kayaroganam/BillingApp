@@ -2,14 +2,13 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Stationery Store</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 
 <body>
-    <a href="/home"><button>BILL</button></a>
+    <div class="box1">
+    <a href="/home" class="test"><button>BILL</button></a>
     <a href="/list"><button>ITEM LIST</button></a>
     <hr>
     <form action="/add_selected" method="post">
@@ -36,14 +35,22 @@
             <td>{{ number }}</td>
             <td>{{ j[3] }}</td>
             <td>{{ j[4] }}</td>
-            <td>{{ j[5] }}</td>
+            <td>₹{{ j[5] }}</td>
+            <td class="nostyle"><a href="/delete_selection/{{ j[1] }}" class="nostyle delete-btn1">&#10006</a></td>
         </tr>
         {% endfor %}
-    </table>
 
-    <label for="total">Total: {{ total }}</label>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>Total</td>
+            <td>₹{{ total }}</td>
+        </tr>
+        
+    </table><br>
 
-    <button>Generate bill</button>
+    <a href="/generateBill"><button>Generate bill</button></a>
+    </div>
 </body>
 
 </html>
