@@ -7,14 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 
-    <title>Stationery Store</title>
+    <title>.</title>
 </head>
 
 <body>
     <div class="box1">
+        <h1>INVOICE</h1>
+
     <label for="date_time">Date and Time : {{ date }}</label>
-    <hr>
-    
+    <br><br>
+
     <table>
         <tr>
             <th>S.No</th>
@@ -38,9 +40,10 @@
             <td>₹{{ total }}</td>
         </tr>
     </table>
+    <br>
 
-    <p>If you have any questions about this invoice, please contact</p>
-    <a href="">iamkayarogan@gmail.com</a>
+    <p>If you have any questions about this invoice,<br> please contact <a href="">iamkayarogan@gmail.com</a></p>
+    
 </div>
 
 </body>

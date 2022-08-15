@@ -11,23 +11,24 @@
 </head>
 
 <body>
-    <div = class="box1">
-    <a href="/home"><button>BILL</button></a>
-    <a href="/list"><button>ITEM LIST</button></a>
-    <hr>
-    <form action="/add_selected">
-        <select name="select_item_id" id="select_item">
-            {% for i in data %}
-            <option value="{{i[1]}}">{{ i[3] }}</option>
-            <!--{i[1]} id column in item_list table-->
-            {% endfor %}
-        </select>
-        <input type="text" name="qty" id="qty" style="width: 20px; height: 15px;">
-        <input type="submit" value="add">
-    </form>
-    <hr>
-    {{ total }}
-</div>
+    
+    <div=class="box1">
+        <a href="/home"><button>Bill</button></a>
+        <a href="/list"><button>Inventory</button></a>
+        <form action="/add_selected">
+            <select name="select_item_id" id="select_item">
+                {% for i in data %}
+                <option value="{{i[1]}}">{{ i[3] }}</option>
+                <!--{i[1]} id column in item_list table-->
+                {% endfor %}
+            </select>
+            <input type="text" name="qty" id="qty" style="width: 20px; height: 15px;">
+            <input type="submit" value="add">
+        </form>
+
+        {{ total }}
+
+        </div>
 </body>
 
 </html>

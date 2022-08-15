@@ -72,9 +72,14 @@ def delete_select(post_id):
 
 @app.route('/generateBill')
 def generate_bill():
+    selected_logs()
+
     data = select_all_selected()
+
     total = total_price()
+
     date_ = datetime.datetime.now()
+    date_ = date_.strftime("%d-%m-%Y %X")
     return render_template('generate.html', data=data, total=total, date=date_)
 
 if __name__ == '__main__':

@@ -12,19 +12,18 @@
 
 <body>
     <div class="box1">
-    <a href="/home"><button>BILL</button></a> 
-    <a href="/list"><button>ITEM LIST</button></a>
-    <hr>
+    <a href="/home"><button class="btn bill-btn">Bill</button></a> 
+    <a href="/list"><button class="btn item-btn">Inventory</button></a>
+    
+    <br><br>
     
     <div>
         <table>
             <tr>
                 <th>S.no</th>
-                <th>ITEM NAME</th>
-                <th>PRICE</th>
+                <th>Item Name</th>
+                <th>Price</th>
             </tr>
-            <!------------------------------------------------------->
-            <!------------------------------------------------------->
 
             {% for i in data %}
             
@@ -33,15 +32,15 @@
                 <td>{{ number }}</td>
                 <td>{{ i[2] }}</td> <!--{i[2]} item_name column in item_list table-->
                 <td>₹{{ i[3] }}</td> <!--{i[3]} item_proce column in item_list table-->
-                <td class=""><a href="/edit/{{ i[1] }}" class="nostyle">EDIT</a></td> <!--{i[1]} id column in item_list table-->
-                <td class="nostyle"><a href="/delete/{{ i[1] }}" class="nostyle delete-btn1">&#10006</a></td>
+                <td class="nostyle"><a href="/edit/{{ i[1] }}" class="nostyle edit-btn1">&#9998;</a></td> <!--{i[1]} id column in item_list table-->
+                <td class="nostyle"><a href="/delete/{{ i[1] }}" class="nostyle delete-btn1">&#10006;</a></td>
             </tr>
 
             {% endfor %}
             
         </table><br>
 
-        <a href="/add"><button>ADD</button></a>
+        <a href="/add"><button class="btn add-btn">Add</button></a>
     </div>
     </div>
 </body>

@@ -8,48 +8,49 @@
 
 <body>
     <div class="box1">
-    <a href="/home" class="test"><button>BILL</button></a>
-    <a href="/list"><button>ITEM LIST</button></a>
-    <hr>
-    <form action="/add_selected" method="post">
-        <select name="select_item_id" id="select_item">
-            {% for i in data %}
-            <option value="{{i[1]}}">{{ i[2] }}</option>
-            <!--{i[1]} id column in item_list table-->
+        <a href="/home"><button class="btn bill-btn">Bill</button></a>
+        <a href="/list"><button class="btn item-btn">Inventory</button></a><br><br>
+        <form action="/add_selected" method="post">
+            <div class="mybox">
+                <span class="myarrow"></span>
+                <select name="select_item_id" id="select_item">
+                    {% for i in data %}
+                    <option value="{{i[1]}}">{{ i[2] }}</option>
+                    <!--{i[1]} id column in item_list table-->
+                    {% endfor %}
+                </select>
+            </div>
+            <input type="text" name="qty" id="qty" style="width: 30px; height: 23px;" class="input-box2">
+            <input type="submit" class="btn add-btn" value="add">
+        </form><br>
+        <table>
+            <tr>
+                <th>S.No</th>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Price</th>
+            </tr>
+            {% for j in data2 %}
+            <tr>
+                {% set number = j[0] | int %}
+                <td>{{ number }}</td>
+                <td>{{ j[3] }}</td>
+                <td>{{ j[4] }}</td>
+                <td>₹{{ j[5] }}</td>
+                <td class="nostyle"><a href="/delete_selection/{{ j[1] }}" class="nostyle delete-btn1">&#10006</a></td>
+            </tr>
             {% endfor %}
-        </select>
-        <input type="text" name="qty" id="qty" style="width: 20px; height: 15px;">
-        <input type="submit" value="add">
-    </form>
-    <hr>
-    <table>
-        <tr>
-            <th>S.No</th>
-            <th>Item</th>
-            <th>qty</th>
-            <th>price</th>
-        </tr>
-        {% for j in data2 %}
-        <tr>
-            {% set number = j[0] | int %}
-            <td>{{ number }}</td>
-            <td>{{ j[3] }}</td>
-            <td>{{ j[4] }}</td>
-            <td>₹{{ j[5] }}</td>
-            <td class="nostyle"><a href="/delete_selection/{{ j[1] }}" class="nostyle delete-btn1">&#10006</a></td>
-        </tr>
-        {% endfor %}
 
-        <tr>
-            <td></td>
-            <td></td>
-            <td>Total</td>
-            <td>₹{{ total }}</td>
-        </tr>
-        
-    </table><br>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>Total</td>
+                <td>₹{{ total }}</td>
+            </tr>
 
-    <a href="/generateBill"><button>Generate bill</button></a>
+        </table><br>
+
+        <a href="/generateBill"><button class="btn gen-btn">Generate bill</button></a>
     </div>
 </body>
 

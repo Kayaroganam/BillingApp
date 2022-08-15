@@ -1,6 +1,7 @@
 import re
 from unittest import result
 import mysql.connector
+import datetime
 
 DB_USER = 'kayar'
 DB_PASSWORD = 'kayar@123'
@@ -108,16 +109,35 @@ def total_price():
     return total
 
 #Function to delete selected_list data
-def delete_selection(id):
+def delete_selection(post_id):
     my_cursor = item_list.cursor()
-    query = f"DELETE FROM selected_items WHERE id={id};"
+    query = f"DELETE FROM selected_items WHERE id={post_id};"
     my_cursor.execute(query)
     print("data deleted [OK]")
+    item_list.commit()
 
 #Function to delete all from selected_items
 def delete_all_selected_items():
     my_cursor = item_list.cursor()
-    query = "DELETE * FROM"
+    query = "DELETE FROM selected_items;"
+    my_cursor.execute(query)
+    item_list.commit()
+
+def selected_logs():
+    date_ = datetime.datetime.now()
+    date_ = date_.strftime("%Y-%m-%d %X")
+    my_cursor = item_list.cursor()
+
+    result = select_all_selected()
+    for i in result:
+        selected_item_id = i[1]
+        selected_item_qty = i[4]
+        price = i[5]
+        query = f"INSERT INTO logs(selected_item_id,selected_qty,price,date_time) VALUES({selected_item_id},{selected_item_qty},{price},'{date_}');"
+        my_cursor.execute(query)
+        item_list.commit()
+        print(i[0],i[1],i[2],i[3],i[4],i[5])
 
 if __name__ == '__main__':
-    print(total_price())
+    selected_logs()
+    pass

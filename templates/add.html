@@ -12,48 +12,55 @@
 
 <body>
     <div class="box1">
-    <a href="/home"><button>BILL</button></a> 
-    <a href="/list"><button>ITEM LIST</button></a>
-    <hr>
-    
-    <div>
-        <table>
-            <tr>
-                <th>S.no</th>
-                <th>ITEM NAME</th>
-                <th>PRICE</th>
-            </tr>
-            
-            {% for i in data %}
-            
-            <tr>
-                {% set number = i[0] | int %} <!--serial no of table column in item_list table-->
-                <td>{{ number }}</td>
-                <td>{{ i[2] }}</td> <!--{i[2]} item_name column in item_list table-->
-                <td>₹{{ i[3] }}</td> <!--{i[3]} item_proce column in item_list table-->
-                <td><a href="/edit/{{ i[1] }}"><button>EDIT</button></a></td> <!--{i[1]} id column in item_list table-->
-                <td><a href="/delete/{{ i[1] }}"><button>DELETE</button></a></td>
-            </tr>
+        <a href="/home"><button class="btn bill-btn">Bill</button></a>
+        <a href="/list"><button class="btn item-btn">Inventory</button></a>
+        <br><br>
 
-            {% endfor %}
+        <div>
+            <table>
+                <tr>
+                    <th>S.no</th>
+                    <th>ITEM NAME</th>
+                    <th>PRICE</th>
+                </tr>
+
+                {% for i in data %}
+
+                <tr>
+                    {% set number = i[0] | int %}
+                    <!--serial no of table column in item_list table-->
+                    <td>{{ number }}</td>
+                    <td>{{ i[2] }}</td>
+                    <!--{i[2]} item_name column in item_list table-->
+                    <td>₹{{ i[3] }}</td>
+                    <!--{i[3]} item_proce column in item_list table-->
+                    <td class="nostyle"><a href="/edit/{{ i[1] }}" class="nostyle edit-btn1">&#9998;</a></td>
+                    <!--{i[1]} id column in item_list table-->
+                    <td class="nostyle"><a href="/delete/{{ i[1] }}" class="nostyle delete-btn1">&#10006;</a></td>
+                </tr>
+
+                {% endfor %}
             </table>
+        </div>
+        <br>
+
+        <div>
+            <a href="/add"><button class="btn add-btn">ADD</button></a>
+        </div>
+        <br>
+
+        <div>
+            <form action="/adding" method="post">
+                <label for="item_name">Item Name</label>
+                <input class="input-box1 " type="text" name="item_name" id="item_name" required>
+                <label for="item_price">Item Price</label>
+                <input class="input-box2" type="text" name="item_price" id="item_price" required>
+                <input type="submit" name="" id="" value="Submit" class="btn submit-btn">
+            </form>
+        </div>
+
     </div>
 
-    <hr>
-    <div>
-        <a href="/add"><button>ADD</button></a>
-    </div><br>
-    
-    <div>
-        <form action="/adding" method="post">
-            <label for="item_name">Item Name</label>
-            <input type="text" name="item_name" id="item_name" required>
-            <label for="item_price">Item Price</label>
-            <input type="text" name="item_price" id="item_price" required>
-            <input type="submit" name="" id="" value="Submit">
-        </form>
-    </div>
-</div>
 </body>
 
 </html>
