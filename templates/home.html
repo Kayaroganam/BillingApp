@@ -10,19 +10,23 @@
 <body>
     <div class="box1">
         <a href="/home"><button class="btn bill-btn">Bill</button></a>
-        <a href="/list"><button class="btn item-btn">Inventory</button></a><br><br>
+        <a href="/list"><button class="btn item-btn">Inventory</button></a>
+        <a href="/docs"><button class="btn add-btn">Document</button></a>
+        
+        <br><br>
+        
         <form action="/add_selected" method="post">
             <div class="mybox">
                 <span class="myarrow"></span>
-                <select name="select_item_id" id="select_item">
+                <select name="select_item_id" id="select_item" title="Select an item ">
                     {% for i in data %}
                     <option value="{{i[1]}}">{{ i[2] }}</option>
                     <!--{i[1]} id column in item_list table-->
                     {% endfor %}
                 </select>
             </div>
-            <input type="text" name="qty" id="qty" style="width: 30px; height: 23px;" class="input-box2">
-            <input type="submit" class="btn add-btn" value="add">
+            <input title="Quantity" placeholder="Qty" type="text" name="qty" id="qty" style="width: 30px; height: 23px;" class="input-box2">
+            <input type="submit" class="btn add-btn" value="add" title="Add in list">
         </form><br>
         <table>
             <tr>
@@ -51,7 +55,7 @@
 
         </table><br>
 
-        <a href="/generateBill"><button class="btn gen-btn">Generate bill</button></a> 
+        <a href="/generateBill"><button class="btn gen-btn" title="Generate the bill" >Generate bill</button></a> 
         <br><br>
         <p>Note: Press Ctrl+P after click the generateBill button to print the bill.</p>
     </div>

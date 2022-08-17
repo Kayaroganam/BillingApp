@@ -82,5 +82,9 @@ def generate_bill():
     date_ = date_.strftime("%d-%m-%Y %X")
     return render_template('generate.html', data=data, total=total, date=date_)
 
+@app.route('/docs')
+def docs():
+    return render_template('docs.html')
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

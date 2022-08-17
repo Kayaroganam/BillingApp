@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Stationery Store</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="icon" href="../static/images/stationery.png" type="image/x-icon">
+    <style>
+        .generate-1-img{
+            width: 90%;
+            height: 90%;
+        }
+        .hr1{
+            background-color: #CE2232;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box1">
+
+        <a href="/home"><button class="btn bill-btn">Bill</button></a>
+        <a href="/list"><button class="btn item-btn">Inventory</button></a>
+        <a href="/docs"><button class="btn add-btn">Document</button></a>
+
+        <h2>Table of connent</h2>
+        <ol>
+            <li>Generate Bill.</li>
+            <li>Add new Item in inventory.</li>
+            <li>Modify the existing data from inventory.</li>
+            <li>Delete data from inventory.</li>
+        </ol>
+
+        <hr> 
+
+        <h4>1. Generate Bill</h4>
+        <img src="../static/images/ganerate-1.png" alt="ganerate-1" class="generate-1-img">
+
+        <ol type="i" >
+            <li>Select the item.</li>
+            <li>Put the quantity.</li>
+            <li>Click add button to add in list.</li>
+            <li>Click the Generate bill buttom</li>
+            <li>Finaly you can take print out the bill by clicking Ctrl+P.</li>
+        </ol>
+        <hr>
+        
+    </div>
+</body>
+
+</html>
