@@ -110,6 +110,7 @@ div[class="box1"] {
   border: 1px solid #CE2232;
   background-color: white;
   height: 25px;
+  text-align: center;
 }
 
 .input-box1:focus{
