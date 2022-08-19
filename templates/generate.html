@@ -5,46 +5,80 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../static/images/stationery.png" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" />
+    <title>Bill</title>
+    <script>
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
 
-    <title>.</title>
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
+        }
+    </script>
+
+    <style>
+        .print-btn {
+            background-color: white;
+            border: 2px solid #0974B0;
+        }
+
+        .print-btn:active {
+            background-color: #0974B0;
+            color: white;
+        }
+    </style>
+
+
 </head>
 
 <body>
     <div class="box1">
-        <h1>INVOICE</h1>
+        <div id="printableArea">
+            <h1>INVOICE</h1>
 
-    <label for="date_time">Date and Time : {{ date }}</label>
-    <br><br>
+            <label for="date_time">Date and Time : {{ date }}</label>
+            <br><br>
 
-    <table>
-        <tr>
-            <th>S.No</th>
-            <th>Item</th>
-            <th>qty</th>
-            <th>price</th>
-        </tr>
-        {% for j in data %}
-        <tr>
-            {% set number = j[0] | int %}
-            <td>{{ number }}</td>
-            <td>{{ j[3] }}</td>
-            <td>{{ j[4] }}</td>
-            <td>₹{{ j[5] }}</td>
-        </tr>
-        {% endfor %}
-        <tr>
-            <td></td>
-            <td>Thank you for your business!</td>
-            <td>Total</td>
-            <td>₹{{ total }}</td>
-        </tr>
-    </table>
-    <br>
+            <table>
+                <tr>
+                    <th>S.No</th>
+                    <th>Item</th>
+                    <th>qty</th>
+                    <th>price</th>
+                </tr>
+                {% for j in data %}
+                <tr>
+                    {% set number = j[0] | int %}
+                    <td>{{ number }}</td>
+                    <td>{{ j[3] }}</td>
+                    <td>{{ j[4] }}</td>
+                    <td>₹{{ j[5] }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td></td>
+                    <td>Thank you for your business!</td>
+                    <td>Total</td>
+                    <td>₹{{ total }}</td>
+                </tr>
+            </table>
+            <br>
 
-    <p>If you have any questions about this invoice,<br> please contact <a href="">iamkayarogan@gmail.com</a></p>
-    
-</div>
+            <p>If you have any questions about this invoice,<br> please contact <a href="">iamkayarogan@gmail.com</a>
+            </p>
+        </div>
+
+        <div>
+            <input type="button" onclick="printDiv('printableArea')" value="Print" class="print-btn" />
+        </div>
+
+    </div>
 
 </body>
 

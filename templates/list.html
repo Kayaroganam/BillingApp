@@ -2,48 +2,50 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-
     <title>Stationery Store</title>
 </head>
 
 <body>
     <div class="box1">
-    <a href="/home"><button class="btn bill-btn">Bill</button></a> 
-    <a href="/list"><button class="btn item-btn">Inventory</button></a>
-    <a href="/docs"><button class="btn add-btn">Document</button></a>
-    
-    <br><br>
-    
-    <div>
-        <table>
-            <tr>
-                <th>S.no</th>
-                <th>Item Name</th>
-                <th>Price</th>
-            </tr>
+        <a href="/home"><button class="btn bill-btn">Bill</button></a>
+        <a href="/list"><button class="btn item-btn">Inventory</button></a>
+        <a href="/docs"><button class="btn add-btn">Document</button></a>
 
-            {% for i in data %}
-            
-            <tr>
-                {% set number = i[0] | int %} <!--serial no of table column in item_list table-->
-                <td>{{ number }}</td>
-                <td>{{ i[2] }}</td> <!--{i[2]} item_name column in item_list table-->
-                <td>₹{{ i[3] }}</td> <!--{i[3]} item_proce column in item_list table-->
-                <td class="nostyle"><a href="/edit/{{ i[1] }}" class="nostyle edit-btn1">&#9998;</a></td> <!--{i[1]} id column in item_list table-->
-                <td class="nostyle"><a href="/delete/{{ i[1] }}" class="nostyle delete-btn1">&#10006;</a></td>
-            </tr>
+        <br><br>
+        <div>
+            <table>
+                <tr>
+                    <th>S.no</th>
+                    <th>Item Name</th>
+                    <th>Price</th>
+                </tr>
 
-            {% endfor %}
-            
-        </table><br>
+                {% for i in data %}
+
+                <tr>
+                    {% set number = i[0] | int %}
+                    <!--serial no of table column in item_list table-->
+                    <td>{{ number }}</td>
+                    <td>{{ i[2] }}</td>
+                    <!--{i[2]} item_name column in item_list table-->
+                    <td>₹{{ i[3] }}</td>
+                    <!--{i[3]} item_proce column in item_list table-->
+                    <td class="nostyle"><a href="/edit/{{ i[1] }}" class="nostyle edit-btn1">&#9998;</a></td>
+                    <!--{i[1]} id column in item_list table-->
+                    <td class="nostyle"><a href="/delete/{{ i[1] }}" class="nostyle delete-btn1">&#10006;</a></td>
+                </tr>
+
+                {% endfor %}
+
+            </table>
+        </div>
+        
+        <br>
 
         <a href="/add"><button class="btn add-btn">Add</button></a>
     </div>
-    </div>
+
 </body>
 
 </html>
