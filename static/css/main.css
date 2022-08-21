@@ -106,6 +106,12 @@ div[class="box1"] {
   background-color: white;
 }
 
+.submit-btn:active{
+  background-color: #FFE004;
+  color: white;
+}
+
+
 .input-box1{
   border: 1px solid #CE2232;
   background-color: white;
@@ -154,4 +160,10 @@ select {
   top: 1px;
   right: 3px;
   pointer-events: none;
+}
+
+.h1-1{
+  font-family: 'Inter', sans-serif; text-align: center;
+  color: #0974B0;
+  font-size: 50px;
 }

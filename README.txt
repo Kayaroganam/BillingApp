@@ -16,33 +16,35 @@
       mysql> CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
       mysql> GRANT PRIVILEGE ON database.table TO 'username'@'localhost';
       mysql> FLUSH PRIVILEGES;
-      mysql> CREATE DATABASE StationeryItems;
-      mysql> USE StationeryItems;
-      mysql> CREATE TABLE item_list(id INT NOT NULL AUTO_INCREMENT, item_name VARCHAR(255) NOT NULL, item_price FLOAT NOT NULL, PRIMARY KEY(id));
-      mysql> CREATE TABLE selected_items(id INT NOT NULL AUTO_INCREMENT, item_id INT NOT NULL, qty FLOAT NOT NULL, price FLOAT NOT NULL, PRIMARY KEY(id));
-      mysql> ALTER TABLE selected_items ADD selected_item_name VARCHAR(255) NOT NULL AFTER item_id;
-      mysql> CREATE TABLE logs(id INT NOT NULL AUTO_INCREMENT, selected_item_id INT NOT NULL, selected_qty FLOAT NOT NULL,price FLOAT,date_time DATETIME, PRIMARY KEY(id));
   
   5. Step 5: Download the Repository
     i. link : https://github.com/Kayaroganam/StationeryItems 
       (or) 
       open terminal type the command git clone https://github.com/Kayaroganam/StationeryItems.git then hit Enter.
   
-  6. Step 6: make some changes on database_operation.py file
+  6. Step 6: make some changes on variables.py file
     i. Navigate to the downloaded repository and open database_operation.py using an editor.
-    ii. Find some lines like 
-      DB_USER = 'kayar'  #change kayar to your mysql user which is you created just now
-      DB_PASSWORD = 'kayar@123' #change kayar@123 to your mysql password
-      DB_HOST = 'localhost'
-      DB = 'StationeryItems'
+    ii. Find some lines like given below and change to your required values.
+
+    class var:
+      Mysql_User = 'kayar'  
+      Mysql_Password = 'kayar@123'
+      Mysql_Database = 'StationeryItems'
+      Mysql_Host = 'localhost'
+
+      My_Email = 'kayarogan2003@gmail.com'  
+      My_Email_Password = 'rxynvahxkluzqykg' 
+      
+      Company = 'Stationery Store' # Enter your title name
+
   
   7. Step 7: Run run.py file
     i. Open terminal and type "python3 run.py" then hit Enter.
     ii. if you are using windows system open cmd and type "python run.py" then hit Enter.
     
   8. Step 8: open the website
-  i. Open your web browser.
-  ii. type "127.0.0.1:5000" on serach bar then hit Enter.
+    i. Open your web browser.
+    ii. type "127.0.0.1:5000" on serach bar then hit Enter.
   
   
   Now your billing software is ready.

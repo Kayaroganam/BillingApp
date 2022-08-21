@@ -1,20 +1,47 @@
 import re
 from unittest import result
 import mysql.connector
+from mysql.connector import errorcode
 import datetime
+from variables import var
 
-DB_USER = 'kayar'
-DB_PASSWORD = 'kayar@123'
-DB_HOST = 'localhost'
-DB = 'StationeryItems'
+try:
+    item_list = mysql.connector.connect(
+        user=var.Mysql_User, password=var.Mysql_Password, host=var.Mysql_Host, database=var.Mysql_Database
+    )
 
-item_list = mysql.connector.connect(
-    user=DB_USER, password=DB_PASSWORD, host=DB_HOST, database=DB
-)
+except mysql.connector.Error as err:
+    if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+        print("Access Denied!")
 
-print(item_list)
+    if err.errno == errorcode.ER_BAD_DB_ERROR:
+        print("Datase doesn't exist!")
+        print("Creating database ...")
+        mydb = mysql.connector.connect(
+            username="kayar", password="kayar@123", host="localhost"
+        )
 
-#Function to count number of rows in item_list table
+        mydb_cursor = mydb.cursor()
+        query = f'''CREATE DATABASE {var.Mysql_Database};
+        USE {var.Mysql_Database};
+        CREATE TABLE item_list(id INT NOT NULL AUTO_INCREMENT, item_name VARCHAR(255) NOT NULL, item_price FLOAT NOT NULL, PRIMARY KEY(id));
+        CREATE TABLE selected_items(id INT NOT NULL AUTO_INCREMENT, item_id INT NOT NULL, qty FLOAT NOT NULL, price FLOAT NOT NULL, PRIMARY KEY(id));
+        ALTER TABLE selected_items ADD selected_item_name VARCHAR(255) NOT NULL AFTER item_id;
+        CREATE TABLE logs(id INT NOT NULL AUTO_INCREMENT, selected_item_id INT NOT NULL, selected_qty FLOAT NOT NULL,price FLOAT,date_time DATETIME, PRIMARY KEY(id));
+        '''
+        mydb_cursor.execute(query)
+
+        item_list = mysql.connector.connect(
+            user=var.Mysql_User, password=var.Mysql_Password, host=var.Mysql_Host, database=var.Mysql_Database
+        )
+
+    else:
+        print(err)
+    pass
+
+# Function to count number of rows in item_list table
+
+
 def get_max_row():
     my_cursor = item_list.cursor()
     query = "SELECT COUNT(*) FROM item_list;"
@@ -23,16 +50,20 @@ def get_max_row():
     result = result[0][0]
     return result
 
-#Function to list All data from item_list
+# Function to list All data from item_list
+
+
 def select_all():
     my_cursor = item_list.cursor()
-    #query with serial no
+    # query with serial no
     query = 'SELECT (@sno := @sno + 1) as Sno, id, item_name, item_price FROM item_list, (SELECT @sno := 0) as ini;'
     my_cursor.execute(query)
     result = my_cursor.fetchall()
     return result
 
-#Function to list all data from selected_items  
+# Function to list all data from selected_items
+
+
 def select_all_selected():
     my_cursor = item_list.cursor()
     query = "SELECT (@sno := @sno + 1) as Sno, id, item_id, selected_item_name, qty, price FROM selected_items, (SELECT @sno := 0) as ini;"
@@ -40,7 +71,9 @@ def select_all_selected():
     result = my_cursor.fetchall()
     return result
 
-#Function to add new data
+# Function to add new data
+
+
 def insert_data(item_name, item_price):
     my_cursor = item_list.cursor()
     query = f"INSERT INTO item_list(item_name, item_price) VALUES('{item_name}', {item_price})"
@@ -48,7 +81,9 @@ def insert_data(item_name, item_price):
     item_list.commit()
     print("item inserted [OK]")
 
-#Function to edit the exist data
+# Function to edit the exist data
+
+
 def edit_data(id, item_name, item_price):
     my_cursor = item_list.cursor()
     query1 = f"UPDATE item_list SET item_name='{item_name}' WHERE id={id};"
@@ -72,7 +107,9 @@ def edit_data(id, item_name, item_price):
     item_list.commit()
     print("item modified [OK]")
 
-#Function to delete data
+# Function to delete data
+
+
 def delete_data(id):
     my_cursor = item_list.cursor()
     query = f"DELETE FROM item_list WHERE id={id}"
@@ -80,25 +117,28 @@ def delete_data(id):
     print("data deleted [OK]")
     pass
 
-#Function to create selected list
+# Function to create selected list
+
+
 def selected_id(id, qty):
     my_cursor = item_list.cursor()
     query = f"SELECT * FROM item_list WHERE id={id}"
     my_cursor.execute(query)
     result = my_cursor.fetchall()
-    
+
     item_id = result[0][0]
     item_name = result[0][1]
     price = result[0][2]
     total_price = price * qty
 
     try:
-            query2 = f"INSERT INTO selected_items(item_id, selected_item_name, qty, price) VALUES({item_id},'{item_name}',{qty},{total_price})"
-            my_cursor.execute(query2)
-            item_list.commit()
+        query2 = f"INSERT INTO selected_items(item_id, selected_item_name, qty, price) VALUES({item_id},'{item_name}',{qty},{total_price})"
+        my_cursor.execute(query2)
+        item_list.commit()
     except:
         print("can't do!")
         pass
+
 
 def total_price():
     my_cursor = item_list.cursor()
@@ -108,7 +148,9 @@ def total_price():
     total = total[0][0]
     return total
 
-#Function to delete selected_list data
+# Function to delete selected_list data
+
+
 def delete_selection(post_id):
     my_cursor = item_list.cursor()
     query = f"DELETE FROM selected_items WHERE id={post_id};"
@@ -116,12 +158,15 @@ def delete_selection(post_id):
     print("data deleted [OK]")
     item_list.commit()
 
-#Function to delete all from selected_items
+# Function to delete all from selected_items
+
+
 def delete_all_selected_items():
     my_cursor = item_list.cursor()
     query = "DELETE FROM selected_items;"
     my_cursor.execute(query)
     item_list.commit()
+
 
 def selected_logs():
     date_ = datetime.datetime.now()
@@ -136,7 +181,8 @@ def selected_logs():
         query = f"INSERT INTO logs(selected_item_id,selected_qty,price,date_time) VALUES({selected_item_id},{selected_item_qty},{price},'{date_}');"
         my_cursor.execute(query)
         item_list.commit()
-        print(i[0],i[1],i[2],i[3],i[4],i[5])
+        print(i[0], i[1], i[2], i[3], i[4], i[5])
+
 
 if __name__ == '__main__':
     selected_logs()

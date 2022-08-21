@@ -4,11 +4,16 @@
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="icon" href="../static/images/stationery.png" type="image/x-icon">
-    <title>Stationery Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <title>{{ __company }}</title>
 </head>
 
 <body>
-    
+
+    <h1 class="h1-1">{{ __company }}</h1>
+
     <div=class="box1">
         <a href="/home"><button>Bill</button></a>
         <a href="/list"><button>Inventory</button></a>

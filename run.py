@@ -1,11 +1,17 @@
+from variables import var
 from flask import Flask, render_template, redirect, request, url_for
 from database_operation import *
 import datetime
 import database_operation
+from send_invoice import send_mail
 
-app = Flask(__name__)   #Creating an flask object
+#Creating an flask object
+app = Flask(__name__)   
 
 no_of_rows = get_max_row()
+
+
+__company = var.Company
 
 @app.route('/')
 @app.route('/home')
@@ -14,7 +20,7 @@ def home():
     total = total_price()
     data2 = select_all_selected()
 
-    return render_template("home.html", data=data, total=total, data2=data2)
+    return render_template("home.html", data=data, total=total, data2=data2, __company=__company)
 
 @app.route('/add_selected/', methods=['POST','GET'])
 def selected_add():
@@ -32,7 +38,7 @@ def selected_add():
 @app.route('/list')
 def list():
     data = select_all()
-    return render_template('list.html', data=data)
+    return render_template('list.html', data=data, __company=__company)
 
 @app.route('/add')
 def add():
@@ -50,7 +56,7 @@ def adding():
 @app.route('/edit/<int:post_id>')
 def edit(post_id):
     data = select_all()
-    return render_template('edit.html', data=data, post_id=post_id)
+    return render_template('edit.html', data=data, post_id=post_id, __company=__company)
 
 @app.route('/editing/<int:post_id>', methods=['POST','GET'])
 def editing(post_id):
@@ -77,14 +83,25 @@ def generate_bill():
     data = select_all_selected()
 
     total = total_price()
+    __email = var.My_Email
+    
 
     date_ = datetime.datetime.now()
     date_ = date_.strftime("%d-%m-%Y %X")
-    return render_template('generate.html', data=data, total=total, date=date_)
+    return render_template('generate.html', data=data, total=total, date=date_, __email =__email, __company=__company)
+
+@app.route('/send_email', methods=['GET','POST'])
+def send_email():
+    if request.method == 'POST':
+        customer_email = request.form.get("c_email")
+        send_mail(customer_email)
+    
+    return redirect(url_for('home'))
+
 
 @app.route('/docs')
 def docs():
-    return render_template('docs.html')
+    return render_template('docs.html', __company=__company)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
