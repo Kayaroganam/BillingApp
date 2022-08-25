@@ -5,7 +5,7 @@
   
   2. Step 2: Install some python modules
     i.  Open terminal.
-    ii. type the command "pip install flask mysql-connector-python" the hit Enter.
+    ii. type the command "pip install flask mysql-connector-python turtle" the hit Enter.
   
   3. Step 3: Download and install MySQL server
     i. https://www.mysql.com/downloads/ (or) open terminal type the command "sudo apt install mysql-server" then hti Enter.
