@@ -18,7 +18,7 @@ except mysql.connector.Error as err:
         print("Datase doesn't exist!")
         print("Creating database ...")
         mydb = mysql.connector.connect(
-            username="kayar", password="kayar@123", host="localhost"
+            user=var.Mysql_User, password=var.Mysql_Password, host=var.Mysql_Host
         )
 
         mydb_cursor = mydb.cursor()
