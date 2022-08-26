@@ -1,5 +1,3 @@
-from cmath import rect
-from turtle import clear
 from database_operation import *
 import smtplib, ssl
 from email.mime.text import MIMEText
