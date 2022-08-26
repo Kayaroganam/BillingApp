@@ -1,5 +1,3 @@
-import re
-from unittest import result
 import mysql.connector
 from mysql.connector import errorcode
 import datetime
