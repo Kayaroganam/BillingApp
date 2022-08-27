@@ -17,7 +17,7 @@ except mysql.connector.Error as err:
         print("Datase doesn't exist!")
         print("Creating database ...")
         os.system(f'mysql -u {var.Mysql_User} -p{var.Mysql_Password} < database_structure.sql')
-        
+        print("Database created.")
         item_list = mysql.connector.connect(
         user=var.Mysql_User, password=var.Mysql_Password, host=var.Mysql_Host, database=var.Mysql_Database
         )
