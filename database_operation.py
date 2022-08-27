@@ -1,5 +1,4 @@
 import os
-import queue
 import mysql.connector
 from mysql.connector import errorcode
 import datetime
