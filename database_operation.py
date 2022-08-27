@@ -30,7 +30,6 @@ except mysql.connector.Error as err:
         """
         my_cursor.execute(query)
         print("database created.")
-        mydb.close()
 
         mydb = mysql.connector.connect(
         user=var.Mysql_User, password=var.Mysql_Password, host=var.Mysql_Host, database=var.Mysql_Database
