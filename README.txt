@@ -1,11 +1,12 @@
 #Installation
 
   1. Step 1: Download and install Python3
-    i. link: https://www.python.org/downloads/
+    i. windows: https://www.python.org/downloads/ 
+    ii. ubuntu: sudo apt update -y && sudo apt install python3 python3-pip -y
   
   2. Step 2: Install some python modules
     i.  Open terminal.
-    ii. type the command "pip install flask, mysql-connector-python" the hit Enter.
+    ii. type the command "sudo pip3 install flask mysql-connector-python" the hit Enter.
   
   3. Step 3: Download and install MySQL server
     i. https://www.mysql.com/downloads/ (or) open terminal type the command "sudo apt install mysql-server" then hti Enter.
@@ -14,8 +15,9 @@
     i. Execute the given commands line by line.
       $ sudo mysql
       mysql> CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
-      mysql> GRANT PRIVILEGE ON database.table TO 'username'@'localhost';
+      mysql> GRANT ALL PRIVILEGES ON *.* TO 'username'@'localhost';
       mysql> FLUSH PRIVILEGES;
+      mysql> exit
   
   5. Step 5: Download the Repository
     i. link : https://github.com/Kayaroganam/StationeryItems 

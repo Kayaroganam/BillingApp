@@ -1,12 +1,15 @@
+import os
+import queue
 import mysql.connector
 from mysql.connector import errorcode
 import datetime
 from variables import var
 
 try:
-    item_list = mysql.connector.connect(
+    mydb = mysql.connector.connect(
         user=var.Mysql_User, password=var.Mysql_Password, host=var.Mysql_Host, database=var.Mysql_Database
     )
+    print("Database connected.")
 
 except mysql.connector.Error as err:
     if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -14,25 +17,25 @@ except mysql.connector.Error as err:
 
     if err.errno == errorcode.ER_BAD_DB_ERROR:
         print("Datase doesn't exist!")
-        print("Creating database ...")
         mydb = mysql.connector.connect(
-            username="kayar", password="kayar@123", host="localhost"
+        user=var.Mysql_User, password=var.Mysql_Password, host=var.Mysql_Host
         )
-
-        mydb_cursor = mydb.cursor()
-        query = f'''CREATE DATABASE {var.Mysql_Database};
+        my_cursor = mydb.cursor()
+        query = f"""
+        CREATE DATABASE {var.Mysql_Database};
         USE {var.Mysql_Database};
         CREATE TABLE item_list(id INT NOT NULL AUTO_INCREMENT, item_name VARCHAR(255) NOT NULL, item_price FLOAT NOT NULL, PRIMARY KEY(id));
         CREATE TABLE selected_items(id INT NOT NULL AUTO_INCREMENT, item_id INT NOT NULL, qty FLOAT NOT NULL, price FLOAT NOT NULL, PRIMARY KEY(id));
         ALTER TABLE selected_items ADD selected_item_name VARCHAR(255) NOT NULL AFTER item_id;
         CREATE TABLE logs(id INT NOT NULL AUTO_INCREMENT, selected_item_id INT NOT NULL, selected_qty FLOAT NOT NULL,price FLOAT,date_time DATETIME, PRIMARY KEY(id));
-        '''
-        mydb_cursor.execute(query)
+        """
+        my_cursor.execute(query)
+        print("database created.")
+        mydb.close()
 
-        item_list = mysql.connector.connect(
-            user=var.Mysql_User, password=var.Mysql_Password, host=var.Mysql_Host, database=var.Mysql_Database
+        mydb = mysql.connector.connect(
+        user=var.Mysql_User, password=var.Mysql_Password, host=var.Mysql_Host, database=var.Mysql_Database
         )
-
     else:
         print(err)
     pass
@@ -41,7 +44,7 @@ except mysql.connector.Error as err:
 
 
 def get_max_row():
-    my_cursor = item_list.cursor()
+    my_cursor = mydb.cursor()
     query = "SELECT COUNT(*) FROM item_list;"
     my_cursor.execute(query)
     result = my_cursor.fetchall()
@@ -52,7 +55,7 @@ def get_max_row():
 
 
 def select_all():
-    my_cursor = item_list.cursor()
+    my_cursor = mydb.cursor()
     # query with serial no
     query = 'SELECT (@sno := @sno + 1) as Sno, id, item_name, item_price FROM item_list, (SELECT @sno := 0) as ini;'
     my_cursor.execute(query)
@@ -63,7 +66,7 @@ def select_all():
 
 
 def select_all_selected():
-    my_cursor = item_list.cursor()
+    my_cursor = mydb.cursor()
     query = "SELECT (@sno := @sno + 1) as Sno, id, item_id, selected_item_name, qty, price FROM selected_items, (SELECT @sno := 0) as ini;"
     my_cursor.execute(query)
     result = my_cursor.fetchall()
@@ -73,17 +76,17 @@ def select_all_selected():
 
 
 def insert_data(item_name, item_price):
-    my_cursor = item_list.cursor()
+    my_cursor = mydb.cursor()
     query = f"INSERT INTO item_list(item_name, item_price) VALUES('{item_name}', {item_price})"
     my_cursor.execute(query)
-    item_list.commit()
+    mydb.commit()
     print("item inserted [OK]")
 
 # Function to edit the exist data
 
 
 def edit_data(id, item_name, item_price):
-    my_cursor = item_list.cursor()
+    my_cursor = mydb.cursor()
     query1 = f"UPDATE item_list SET item_name='{item_name}' WHERE id={id};"
     query2 = f"UPDATE item_list SET item_price={item_price} WHERE id={id};"
 
@@ -102,14 +105,14 @@ def edit_data(id, item_name, item_price):
     except:
         pass
 
-    item_list.commit()
+    mydb.commit()
     print("item modified [OK]")
 
 # Function to delete data
 
 
 def delete_data(id):
-    my_cursor = item_list.cursor()
+    my_cursor = mydb.cursor()
     query = f"DELETE FROM item_list WHERE id={id}"
     my_cursor.execute(query)
     print("data deleted [OK]")
@@ -119,7 +122,7 @@ def delete_data(id):
 
 
 def selected_id(id, qty):
-    my_cursor = item_list.cursor()
+    my_cursor = mydb.cursor()
     query = f"SELECT * FROM item_list WHERE id={id}"
     my_cursor.execute(query)
     result = my_cursor.fetchall()
@@ -132,14 +135,14 @@ def selected_id(id, qty):
     try:
         query2 = f"INSERT INTO selected_items(item_id, selected_item_name, qty, price) VALUES({item_id},'{item_name}',{qty},{total_price})"
         my_cursor.execute(query2)
-        item_list.commit()
+        mydb.commit()
     except:
         print("can't do!")
         pass
 
 
 def total_price():
-    my_cursor = item_list.cursor()
+    my_cursor = mydb.cursor()
     query = f"SELECT SUM(price) FROM selected_items;"
     my_cursor.execute(query)
     total = my_cursor.fetchall()
@@ -150,26 +153,26 @@ def total_price():
 
 
 def delete_selection(post_id):
-    my_cursor = item_list.cursor()
+    my_cursor = mydb.cursor()
     query = f"DELETE FROM selected_items WHERE id={post_id};"
     my_cursor.execute(query)
     print("data deleted [OK]")
-    item_list.commit()
+    mydb.commit()
 
 # Function to delete all from selected_items
 
 
 def delete_all_selected_items():
-    my_cursor = item_list.cursor()
+    my_cursor = mydb.cursor()
     query = "DELETE FROM selected_items;"
     my_cursor.execute(query)
-    item_list.commit()
+    mydb.commit()
 
 
 def selected_logs():
     date_ = datetime.datetime.now()
     date_ = date_.strftime("%Y-%m-%d %X")
-    my_cursor = item_list.cursor()
+    my_cursor = mydb.cursor()
 
     result = select_all_selected()
     for i in result:
@@ -178,7 +181,7 @@ def selected_logs():
         price = i[5]
         query = f"INSERT INTO logs(selected_item_id,selected_qty,price,date_time) VALUES({selected_item_id},{selected_item_qty},{price},'{date_}');"
         my_cursor.execute(query)
-        item_list.commit()
+        mydb.commit()
         print(i[0], i[1], i[2], i[3], i[4], i[5])
 
 
