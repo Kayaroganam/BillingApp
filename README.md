@@ -44,7 +44,7 @@ sudo vi /opt/BillingApp/variables.py
 sudo python3 /opt/BillingApp/run.py
 ```
 
-## automatic Installation script
+## Automatic Installation script
 ```
 git clone https://github.com/Kayaroganam/shell_script.git
 bash shell_script/Deploy_Billing_App.sh
