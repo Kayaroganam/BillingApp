@@ -35,6 +35,10 @@ except mysql.connector.Error as err:
         '''
         mydb_cursor.execute(query)
         item_list.commit()
+        
+        item_list = mysql.connector.connect(
+        user=var.Mysql_User, password=var.Mysql_Password, host=var.Mysql_Host, database=var.Mysql_Database
+        )
 
     else:
         print(err)
