@@ -1,3 +1,4 @@
+import os
 import mysql.connector
 from mysql.connector import errorcode
 import datetime
@@ -15,26 +16,7 @@ except mysql.connector.Error as err:
     if err.errno == errorcode.ER_BAD_DB_ERROR:
         print("Datase doesn't exist!")
         print("Creating database ...")
-        item_list = mysql.connector.connect(
-            user=var.Mysql_User, password=var.Mysql_Password, host=var.Mysql_Host
-        )
-
-        mydb_cursor = item_list.cursor()
-        query = f'''
-        CREATE DATABASE {var.Mysql_Database};
-        USE {var.Mysql_Database};
-        CREATE TABLE item_list(id INT NOT NULL AUTO_INCREMENT, item_name VARCHAR(255) NOT NULL, item_price FLOAT NOT NULL, PRIMARY KEY(id));
-        CREATE TABLE selected_items(id INT NOT NULL AUTO_INCREMENT, item_id INT NOT NULL, qty FLOAT NOT NULL, price FLOAT NOT NULL, PRIMARY KEY(id));
-        ALTER TABLE selected_items ADD selected_item_name VARCHAR(255) NOT NULL AFTER item_id;
-        CREATE TABLE logs(id INT NOT NULL AUTO_INCREMENT, selected_item_id INT NOT NULL, selected_qty FLOAT NOT NULL,price FLOAT,date_time DATETIME, PRIMARY KEY(id));
-        INSERT INTO item_list(item_name,item_price) VALUES('item1',100);
-        INSERT INTO item_list(item_name,item_price) VALUES('item2',20);
-        INSERT INTO item_list(item_name,item_price) VALUES('item3',200);
-        INSERT INTO item_list(item_name,item_price) VALUES('item4',184);
-        INSERT INTO item_list(item_name, item_price ) VALUES('test1',10);
-        '''
-        mydb_cursor.execute(query)
-        item_list.commit()
+        os.system(f'mysql -u {var.Mysql_User} -p{var.Mysql_Password} < database_structure.sql')
         
         item_list = mysql.connector.connect(
         user=var.Mysql_User, password=var.Mysql_Password, host=var.Mysql_Host, database=var.Mysql_Database
