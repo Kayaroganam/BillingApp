@@ -1,3 +1,4 @@
+#importing required Modules
 from variables import var
 from flask import Flask, render_template, redirect, request, url_for
 from database_operation import *
@@ -8,11 +9,13 @@ from send_invoice import send_mail
 #Creating an flask object
 app = Flask(__name__)   
 
+#Get total number of rows on item_list
 no_of_rows = get_max_row()
 
 
 __company = var.Company
 
+#This is default route for this application
 @app.route('/')
 @app.route('/home')
 def home():
@@ -104,4 +107,5 @@ def docs():
     return render_template('docs.html', __company=__company)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    #Start the application
+    app.run(debug=True, host='0.0.0.0', port=5000)
