@@ -1,9 +1,11 @@
+#Import required modules
 import os
 import mysql.connector
 from mysql.connector import errorcode
 import datetime
 from variables import var
 
+#try to connect mysql database
 try:
     mydb = mysql.connector.connect(
         user=var.Mysql_User, password=var.Mysql_Password, host=var.Mysql_Host, database=var.Mysql_Database
@@ -13,12 +15,15 @@ try:
 except mysql.connector.Error as err:
     if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
         print("Access Denied!")
-
+    
+    #if database is not avilable
     if err.errno == errorcode.ER_BAD_DB_ERROR:
         print("Datase doesn't exist!")
+        
         mydb = mysql.connector.connect(
         user=var.Mysql_User, password=var.Mysql_Password, host=var.Mysql_Host
         )
+        
         my_cursor = mydb.cursor()
         query = f"""
         CREATE DATABASE {var.Mysql_Database};
@@ -28,6 +33,7 @@ except mysql.connector.Error as err:
         ALTER TABLE selected_items ADD selected_item_name VARCHAR(255) NOT NULL AFTER item_id;
         CREATE TABLE logs(id INT NOT NULL AUTO_INCREMENT, selected_item_id INT NOT NULL, selected_qty FLOAT NOT NULL,price FLOAT,date_time DATETIME, PRIMARY KEY(id));
         """
+        
         my_cursor.execute(query)
         print("database created.")
 
@@ -36,11 +42,10 @@ except mysql.connector.Error as err:
         )
     else:
         print(err)
+        
     pass
 
-# Function to count number of rows in item_list table
-
-
+################## This function will return the total number of rows on item_list table ##################
 def get_max_row():
     my_cursor = mydb.cursor()
     query = "SELECT COUNT(*) FROM item_list;"
@@ -49,9 +54,7 @@ def get_max_row():
     result = result[0][0]
     return result
 
-# Function to list All data from item_list
-
-
+################## This function will return all data with serial no from item_list table ##################
 def select_all():
     my_cursor = mydb.cursor()
     # query with serial no
@@ -60,8 +63,7 @@ def select_all():
     result = my_cursor.fetchall()
     return result
 
-# Function to list all data from selected_items
-
+################## This function will return all data with serial no from selected_lites table ##################
 
 def select_all_selected():
     my_cursor = mydb.cursor()
@@ -70,9 +72,7 @@ def select_all_selected():
     result = my_cursor.fetchall()
     return result
 
-# Function to add new data
-
-
+################## This function will add new item on item_list table ###################################################
 def insert_data(item_name, item_price):
     my_cursor = mydb.cursor()
     query = f"INSERT INTO item_list(item_name, item_price) VALUES('{item_name}', {item_price})"
@@ -80,9 +80,7 @@ def insert_data(item_name, item_price):
     mydb.commit()
     print("item inserted [OK]")
 
-# Function to edit the exist data
-
-
+################## This function to edit the existed data on item_list table ##################
 def edit_data(id, item_name, item_price):
     my_cursor = mydb.cursor()
     query1 = f"UPDATE item_list SET item_name='{item_name}' WHERE id={id};"
@@ -106,9 +104,7 @@ def edit_data(id, item_name, item_price):
     mydb.commit()
     print("item modified [OK]")
 
-# Function to delete data
-
-
+################## This function will delete an item by given id in item_list table ##################
 def delete_data(id):
     my_cursor = mydb.cursor()
     query = f"DELETE FROM item_list WHERE id={id}"
@@ -116,9 +112,7 @@ def delete_data(id):
     print("data deleted [OK]")
     pass
 
-# Function to create selected list
-
-
+################## This function will select the items for bill ##################
 def selected_id(id, qty):
     my_cursor = mydb.cursor()
     query = f"SELECT * FROM item_list WHERE id={id}"
@@ -138,7 +132,7 @@ def selected_id(id, qty):
         print("can't do!")
         pass
 
-
+################## This function will return the sum of price column in selected_items table ##################
 def total_price():
     my_cursor = mydb.cursor()
     query = f"SELECT SUM(price) FROM selected_items;"
@@ -147,9 +141,7 @@ def total_price():
     total = total[0][0]
     return total
 
-# Function to delete selected_list data
-
-
+################## This function will delete the entry by given id in selected_items table ##################
 def delete_selection(post_id):
     my_cursor = mydb.cursor()
     query = f"DELETE FROM selected_items WHERE id={post_id};"
@@ -157,16 +149,14 @@ def delete_selection(post_id):
     print("data deleted [OK]")
     mydb.commit()
 
-# Function to delete all from selected_items
-
-
+################## This function will delete all the data from selected_items table ##################
 def delete_all_selected_items():
     my_cursor = mydb.cursor()
     query = "DELETE FROM selected_items;"
     my_cursor.execute(query)
     mydb.commit()
 
-
+################## This function will store the purchase logs on logs table ##################
 def selected_logs():
     date_ = datetime.datetime.now()
     date_ = date_.strftime("%Y-%m-%d %X")
@@ -184,5 +174,4 @@ def selected_logs():
 
 
 if __name__ == '__main__':
-    selected_logs()
     pass
