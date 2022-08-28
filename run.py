@@ -22,7 +22,7 @@ def home():
 
     return render_template("home.html", data=data, total=total, data2=data2, __company=__company)
 
-@app.route('/add_selected/', methods=['POST','GET'])
+@app.route('/add_selected', methods=['POST','GET'])
 def selected_add():
     if request.method == 'POST':
         item_id = request.form.get('select_item_id')
